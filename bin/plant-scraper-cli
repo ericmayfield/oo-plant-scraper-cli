@@ -1,0 +1,3 @@
+require_relative "../lib/plant_info_scraper"
+
+PlantScraper::CLI.new.start

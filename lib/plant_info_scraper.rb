@@ -1,5 +1,12 @@
-require "plant_info_scraper/version"
+require 'open-uri'
+require 'nokogiri'
+require 'pry'
 
-module PlantInfoScraper
-  # Your code goes here...
-end
+require_relative "./plant_info_scraper/version"
+require_relative "./plant_info_scraper/cli"
+require_relative "./plant_info_scraper/scraper"
+require_relative "./plant_info_scraper/plant"
+
+# module PlantInfoScraper
+#   # Your code goes here...
+# end

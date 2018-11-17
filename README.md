@@ -1,3 +1,7 @@
+# Development Notes
+1. Prevent multiple entries
+2. Think of an attributes class or adding more info to the Plant class??? Maybe ask Cernan or other students their opinion. Can always use an add attributes class.
+
 # PlantInfoScraper
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/plant_info_scraper`. To experiment with that code, run `bin/console` for an interactive prompt.
