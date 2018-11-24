@@ -1,19 +1,111 @@
 class PlantScraper::CLI
 
     def start
+        print "\n\n"
         puts "Welcome to the Unofficial but Amazing Plant Scraper CLI!!!"
-        puts "This Gem allows the user to search for plants that grow well in your zip-code. Please enter your zip-code to continue:"
-        input = gets.chomp
-        puts "Loading..."
-        PlantScraper::Scraper.scrape_by_zip(input)
-        menu(input)
+        print "This Gem allows the user to search for plants which thrive in your region. Please enter your zip-code to continue: "
+        zip = gets.chomp
+        print "\n\n"
+        print "If you would like to filter results by sunlight, height, or plant type enter \'" + "Y".green + "\' or \'" + "N".green + "\': "
+        if gets.chomp.capitalize == "Y"
+            print "\n\n"
+            sun_entry = sun_filter
+            height_entry = height_filter
+            plant_type_entry = plant_type_filter
+            PlantScraper::Scraper.scrape_zip_with_attributes(zip, sun_entry, height_entry, plant_type_entry)
+        elsif
+            PlantScraper::Scraper.scrape_by_zip(zip)
+        else
+            start
+        end
+        print "\n\n"
+        menu(zip)
+        print "\n\n"
+        print "\n\n"
+        start
     end
 
     def menu(zip)
         puts "##############################--  PLANTS FOR #{zip}  --##############################"
         #binding.pry
         PlantScraper::Plant.all.each.with_index(1) { |plant, i| puts "#{i}. #{plant.name.strip}"}
-        input = gets.chomp
+        ## future logic to drill into results, ask for next 20 results, restart, etc.
+    end
+
+    def sun_filter
+        print "For Sunlight, Enter \'" + "A".green + "\' for Any, \'" + "F".green + "\' for Full, \'" + "P".green + "\' for Partial, or \'" + "S".green + "\' for Shade. Only Choose One: "
+        sun_entry = gets.chomp.upcase
+        #checking that the sun filter is on a single digit and is only of 4 values filterable
+        if sun_entry.length > 1 || !(["A", "P", "F", "S"].include?(sun_entry))
+            puts "Your Entry was Incorrect Please Re-Enter Sun Type"
+            sun_filter
+        else
+            #Converting the sun filter to a URL appropriate value
+            case sun_entry
+            when "A"
+                sun_entry = ""
+            when "F"
+                sun_entry = "Sun"
+            when "P"
+                sun_entry = "Part+Sun"
+            when "S"
+                sun_entry = "Shade"
+            end
+        end
+
+        sun_entry
+    end
+
+    def height_filter
+        print "For Height, Enter \'" + "A".green + "\' for Any, \'" + "XS".green + "\' for less than 6 inches, \'" + "SM".green + "\' for 6 - 12 inches, \'" + "MD".green + "\' for 1 - 3 feet , \'" + "LG".green + "\' for 3 - 8 feet, \'" + "XL".green + "\' for 8 - 20 feet, or \'" + "XXL".green + "\' for over 20 feet. Only choose One: "
+        height_entry = gets.chomp.upcase
+        #checking that the height filter is an appropriate entry and is only of 7 values filterable
+        if height_entry.length > 3 || !(["A", "XS", "SM", "MD", "LG", "XL", "XXL"].include?(height_entry))
+            puts height_entry
+            puts "Your Entry was Incorrect Please Re-Enter Sun Type"
+            height_filter
+        else
+            #Converting the height filter to a URL appropriate value
+            case height_entry
+            when "A"
+                height_entry = ""
+            when "XS"
+                height_entry = "0-6"
+            when "SM"
+                height_entry = "6-12"
+            when "MD"
+                height_entry = "1-3"
+            when "LG"
+                height_entry = "3-8"
+            when "XL"
+                height_entry = "8-20"
+            when "XXL"
+                height_entry = "20"
+            end
+        end
+        height_entry
+    end
+
+    def plant_type_filter
+        print "For Plant Type, Enter \'" + "A".green + "\' for Any, \'" + "N".green + "\' for Annuals and \'" + "P".green + "\' for Perenials, only choose one Plant Type: "
+        plant_type_entry = gets.chomp.upcase
+        #checking that the sun filter is on a single digit and is only of 4 values filterable
+        if plant_type_entry.length > 1 || !(["A", "N", "P"].include?(plant_type_entry))
+            puts "Your Entry was Incorrect Please Re-Enter Plant Type"
+            plant_type_entry
+        else
+            #Converting the plant-type filter to a URL appropriate value
+            case plant_type_entry
+            when "A"
+                plant_type_entry = ""
+            when "N"
+                plant_type_entry = "Annual"
+            when "P"
+                plant_type_entry = "Perennial"
+            end
+        end
+
+        plant_type_entry
     end
 
 end

@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 require 'pry'
+require 'colorize'
 
 require_relative "./plant_info_scraper/version"
 require_relative "./plant_info_scraper/cli"

@@ -1,10 +1,11 @@
 class PlantScraper::Plant
-    attr_accessor :name, :light, :zones, :height, :type, :summary
+    attr_accessor :name, :scientific_name, :light, :zones, :height, :type, :summary
 
     @@all = []
 
-    def initialize(name) #, light, zones, height, type, summary)
+    def initialize(name)#, scientific_name, light, zones, height, type, summary)
         @name = name
+        # @scientific_name = scientific_name
         # @light = light
         # @zones = Range.new
         # @height = height

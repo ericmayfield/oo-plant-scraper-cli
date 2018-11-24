@@ -1,6 +1,9 @@
 # Development Notes
+
 1. Prevent multiple entries
 2. Think of an attributes class or adding more info to the Plant class??? Maybe ask Cernan or other students their opinion. Can always use an add attributes class.
+3. Pagination handling since only receiving 20 results at a time
+4. Possibly scraping into each plant's specific data
 
 # PlantInfoScraper
 
