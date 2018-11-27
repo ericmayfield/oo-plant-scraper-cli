@@ -4,7 +4,8 @@ class PlantScraper::CLI
         print "\n\n"
         puts "Welcome to the Unofficial but Amazing Plant Scraper CLI!!!"
         print "This Gem allows the user to search for plants which thrive in your region. Please enter your zip-code to continue: "
-        zip = gets.chomp
+        zip = zip_code?
+
         print "\n\n"
         print "If you would like to filter results by sunlight, height, or plant type enter \'" + "Y".green + "\' or \'" + "N".green + "\': "
         if gets.chomp.capitalize == "Y"
@@ -21,15 +22,72 @@ class PlantScraper::CLI
         print "\n\n"
         menu(zip)
         print "\n\n"
-        print "\n\n"
-        start
+    end
+
+    def zip_code?
+        zip = gets.chomp
+        
+        if zip.length < 5 || zip.length > 5
+            print "Your Zip Code entry was incorrect. Please re-enter: "
+            zip_code?
+        else
+            zip
+        end
     end
 
     def menu(zip)
-        puts "##############################--  PLANTS FOR #{zip}  --##############################"
-        #binding.pry
-        PlantScraper::Plant.all.each.with_index(1) { |plant, i| puts "#{i}. #{plant.name.strip}"}
-        ## future logic to drill into results, ask for next 20 results, restart, etc.
+        if PlantScraper::Plant.all.size > 0
+            puts "                                   __".green
+            puts "                              _   / /|".green
+            puts "                             | \\\  \\/_/".green
+            puts "                              \\_\\| / __ ".green             
+            puts "                                 \\/_/__\\           ".green + ".-=='/~\\'".red
+            puts "                          ____,__/__,_____,______)".green + "/   /{~}}}".red
+            puts "                          -,------,----,-----,---,".green + "\\'-' {{~}}".red
+            puts "                                                   '-==.\\}/".red
+            print "\n\n"
+            puts "##############################--  PLANTS FOR #{zip}  --##############################"
+            #binding.pry
+            PlantScraper::Plant.all.each.with_index(1) { |plant, i| puts "#{i}. #{plant.name.strip}"}
+            print "\n\n"
+            print "Enter the number of the plant to see its details: " #", #or \'" + "N".green + "\' "
+            input = gets.chomp
+            
+            plant = PlantScraper::Plant.all[input.to_i-1]
+            print "\n\n"
+            puts "Plant Name: #{plant.name}"
+            puts "Light Type(s): #{plant.light}"
+            puts "Height Range: #{plant.height}"
+            puts "Growth Zones: #{plant.zones}"
+            puts "Plant Type(s): #{plant.type}"
+            puts "Summary: #{plant.summary}"
+            print "\n"
+            print "I hope you found this informative. To return to your results enter \'" + "R".green + "\', to start a new search enter \'" + "N".green + "\', or to exit enter \'" + "X".green + ": "
+            menu_input = gets.chomp.capitalize
+
+            #Case to Route user
+            case menu_input
+            when "R"
+                #Takes user back to original plants
+                puts "Now returning you to the plants list for zip-code #{zip}."
+                menu(zip)
+            when "N"
+                #Takes user back to new search
+                start
+            when "X"
+                #Ends program
+                exit
+            end
+
+            ##  ask for next 20 results
+        else 
+            puts "You entered an incorrect zip code please enter a new zip code"
+            start
+        end
+    end
+
+    def exit
+        puts "Thanks for using The Amazing but Unofficial Plant Scrapper!"
     end
 
     def sun_filter

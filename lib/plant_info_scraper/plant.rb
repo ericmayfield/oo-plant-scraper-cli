@@ -1,16 +1,16 @@
 class PlantScraper::Plant
-    attr_accessor :name, :scientific_name, :light, :zones, :height, :type, :summary
+    attr_accessor :name, :light, :zones, :height, :type, :summary #,:scientific_name "Future refactoring"
 
     @@all = []
 
-    def initialize(name)#, scientific_name, light, zones, height, type, summary)
+    def initialize(name, light, height, zones, type, summary)
         @name = name
-        # @scientific_name = scientific_name
-        # @light = light
-        # @zones = Range.new
-        # @height = height
-        # @type = type
-        # @summary = summary
+        @light = light
+        @height = height
+        @zones = zones
+        @type = type
+        @summary = summary
+        # Maybe breakout scientific name in future @scientific_name = scientific_name
         @@all << self
     end
 
