@@ -72,7 +72,8 @@ class PlantScraper::CLI
                 puts "Now returning you to the plants list for zip-code #{zip}."
                 menu(zip)
             when "N"
-                #Takes user back to new search
+                #Clears PlantScraper::Plant class array @@all and takes user back to new search
+                PlantScraper::Plant.clear
                 start
             when "X"
                 #Ends program
