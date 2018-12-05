@@ -9,8 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Eric Mayfield"]
   spec.email         = ["eric@visiblycreative.com"]
 
-  spec.summary       = %q{ Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{ Write a longer description or delete this line.}
+  spec.summary       = "Gem to search plants by zip code which grow well in a user's area."
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
