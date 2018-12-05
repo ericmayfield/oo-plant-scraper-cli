@@ -1,5 +1,5 @@
 class PlantScraper::Plant
-    attr_accessor :name, :light, :zones, :height, :type, :summary #,:scientific_name "Future refactoring"
+    attr_accessor :name, :light, :zones, :height, :type, :summary
 
     @@all = []
 
@@ -10,7 +10,7 @@ class PlantScraper::Plant
         @zones = zones
         @type = type
         @summary = summary
-        # Maybe breakout scientific name in future @scientific_name = scientific_name
+        # TODO: Breakout scientific name in future @scientific_name = scientific_name
         @@all << self
     end
 

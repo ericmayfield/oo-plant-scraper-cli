@@ -7,7 +7,7 @@ class PlantScraper::CLI
         zip = zip_code?
 
         print "\n\n"
-        print "If you would like to filter results by sunlight, height, or plant type enter \'" + "Y".green + "\' or \'" + "N".green + "\': "
+        print "If you would like to filter results by sunlight, height, or plant type enter \'" + "Y".green + "\' or " + "any key to continue.".green + ": "
         if gets.chomp.capitalize == "Y"
             print "\n\n"
             sun_entry = sun_filter
@@ -27,10 +27,11 @@ class PlantScraper::CLI
     def zip_code?
         zip = gets.chomp
         
-        if zip.length < 5 || zip.length > 5
+        if zip.length < 5 || zip.length > 5 || !/\A\d+\z/.match(zip)
             print "Your Zip Code entry was incorrect. Please re-enter: "
             zip_code?
         else
+            puts zip.to_i
             zip
         end
     end
@@ -51,36 +52,41 @@ class PlantScraper::CLI
             PlantScraper::Plant.all.each.with_index(1) { |plant, i| puts "#{i}. #{plant.name.strip}"}
             print "\n\n"
             print "Enter the number of the plant to see its details: " #", #or \'" + "N".green + "\' "
-            input = gets.chomp
+            input = gets.chomp 
             
-            plant = PlantScraper::Plant.all[input.to_i-1]
-            print "\n\n"
-            puts "Plant Name: #{plant.name}"
-            puts "Light Type(s): #{plant.light}"
-            puts "Height Range: #{plant.height}"
-            puts "Growth Zones: #{plant.zones}"
-            puts "Plant Type(s): #{plant.type}"
-            puts "Summary: #{plant.summary}"
-            print "\n"
-            print "I hope you found this informative. To return to your results enter \'" + "R".green + "\', to start a new search enter \'" + "N".green + "\', or to exit enter \'" + "X".green + ": "
-            menu_input = gets.chomp.capitalize
+            if input.to_i > PlantScraper::Plant.all.size  
+                puts "Entry was incorrect press any key to try again".red
+                menu(zip) if gets.chomp
+            else
+                plant = PlantScraper::Plant.all[input.to_i-1]
+                print "\n\n"
+                puts "Plant Name: #{plant.name}"
+                puts "Light Type(s): #{plant.light}"
+                puts "Height Range: #{plant.height}"
+                puts "Growth Zones: #{plant.zones}"
+                puts "Plant Type(s): #{plant.type}"
+                puts "Summary: #{plant.summary}"
+                print "\n"
+                print "I hope you found this informative. To return to your results enter \'" + "R".green + "\', to start a new search enter \'" + "N".green + "\', or to exit enter \'" + "X".green + ": "
+                menu_input = gets.chomp.capitalize
 
-            #Case to Route user
-            case menu_input
-            when "R"
-                #Takes user back to original plants
-                puts "Now returning you to the plants list for zip-code #{zip}."
-                menu(zip)
-            when "N"
-                #Clears PlantScraper::Plant class array @@all and takes user back to new search
-                PlantScraper::Plant.clear
-                start
-            when "X"
-                #Ends program
-                exit
+                #Case to Route user
+                case menu_input
+                when "R"
+                    #Takes user back to original plants
+                    puts "Now returning you to the plants list for zip-code #{zip}."
+                    menu(zip)
+                when "N"
+                    #Clears PlantScraper::Plant class array @@all and takes user back to new search
+                    PlantScraper::Plant.clear
+                    start
+                when "X"
+                    #Ends program
+                    exit
+                end
+
+                ##  ask for next 20 results
             end
-
-            ##  ask for next 20 results
         else 
             puts "You entered an incorrect zip code please enter a new zip code"
             start
